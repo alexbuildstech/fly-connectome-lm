@@ -1,0 +1,22 @@
+{
+  "variant": "shuffled",
+  "norm": "rowsum",
+  "leak": 0.7,
+  "gain": 1.6,
+  "in_gain": 2.0,
+  "seed": 0,
+  "train_chars": 300000,
+  "val_chars": 40000,
+  "streams": 64,
+  "in_neurons": 30000,
+  "readout": 2048,
+  "subsample": 2,
+  "min_weight": 2,
+  "ridge_samples": 13632,
+  "val_nll_nats_per_char": 2.5019995461047535,
+  "val_bits_per_char": 3.6096223374717655,
+  "val_acc": 0.295481220657277,
+  "readout_type": "softmax (Adam) on frozen reservoir features",
+  "input_neuron_source": "random_active (n=30000)",
+  "wall_seconds": 2.6022260189056396
+}
