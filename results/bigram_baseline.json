@@ -1,0 +1,10 @@
+{
+  "model": "bigram",
+  "train_chars": 300000,
+  "val_chars": 39999,
+  "val_nll_nats_per_char": 2.6686458894259246,
+  "val_bits_per_char": 3.8500421905634985,
+  "val_acc": 0.2619815495387385,
+  "unigram_bits_per_char": 4.77281323813372,
+  "uniform_bits_per_char": 6.022367813028454
+}

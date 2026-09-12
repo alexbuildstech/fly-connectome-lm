@@ -1,0 +1,27 @@
+{
+  "variant": "fly",
+  "norm": "global",
+  "leak": 0.7,
+  "gain": 1.2,
+  "in_gain": 1.0,
+  "seed": 0,
+  "train_chars": 32000,
+  "val_chars": 4000,
+  "streams": 64,
+  "in_neurons": 1024,
+  "readout": 2048,
+  "subsample": 2,
+  "ridge_samples": 14400,
+  "val_nll_nats_per_char": 4.125021934509277,
+  "val_bits_per_char": 5.951148688474733,
+  "val_acc": 0.22135416666666666,
+  "lambda": 0.003,
+  "lambda_grid_val_mse": {
+    "0.003": 70.36672842879692,
+    "0.03": 75.84104364318694,
+    "0.3": 76.92018914644791,
+    "3.0": 77.46742191246291
+  },
+  "input_neuron_source": "sensory neurons (superclass/class contains 'sensory')",
+  "wall_seconds": 248.82709550857544
+}
