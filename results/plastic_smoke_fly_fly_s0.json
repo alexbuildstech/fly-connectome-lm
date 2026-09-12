@@ -1,0 +1,26 @@
+{
+  "model": "plastic_fly_fly_fly",
+  "K": 1024,
+  "mask_nnz": 61494,
+  "trainable_params": 1182720,
+  "steps": 100,
+  "batch": 8,
+  "T": 48,
+  "lr_w": 0.0005,
+  "lr_io": 0.001,
+  "leak": 0.7,
+  "gain": 1.2,
+  "train_chars": 300000,
+  "val_chars": 40000,
+  "seed": 0,
+  "val_nll_nats_per_char": 2.659080387156399,
+  "val_bits_per_char": 3.836242087875642,
+  "val_acc": 0.26882201032975767,
+  "loss_curve": [
+    {
+      "step": 0,
+      "train_loss": 4.179999828338623
+    }
+  ],
+  "wall_seconds": 24.46008586883545
+}

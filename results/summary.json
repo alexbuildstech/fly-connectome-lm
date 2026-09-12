@@ -1,0 +1,222 @@
+[
+  {
+    "file": "bigram_baseline.json",
+    "model": "bigram",
+    "tag": "",
+    "bits_per_char": 3.8500421905634985,
+    "nats": 2.6686458894259246,
+    "acc": 0.2619815495387385,
+    "params": null,
+    "seed": null,
+    "train_chars": 300000
+  },
+  {
+    "file": "flylm_csmoke_fly_global_leak0.7_gain1.2_s0.json",
+    "model": "fly",
+    "tag": "",
+    "bits_per_char": 5.947784405134391,
+    "nats": 4.122689990997315,
+    "acc": 0.2009375,
+    "params": null,
+    "seed": 0,
+    "train_chars": 30000
+  },
+  {
+    "file": "flylm_main_fly_rowsum_leak0.7_gain1.6_random_active30000_s0.json",
+    "model": "fly",
+    "tag": "",
+    "bits_per_char": 3.600114038426881,
+    "nats": 2.495408895429871,
+    "acc": 0.29922241784037557,
+    "params": null,
+    "seed": 0,
+    "train_chars": 300000
+  },
+  {
+    "file": "flylm_main_fly_rowsum_leak0.7_gain1.6_sensory30000_s0.json",
+    "model": "fly",
+    "tag": "",
+    "bits_per_char": 3.6081745955911053,
+    "nats": 2.5009960479019955,
+    "acc": 0.2933538732394366,
+    "params": null,
+    "seed": 0,
+    "train_chars": 300000
+  },
+  {
+    "file": "flylm_main_random_rowsum_leak0.7_gain1.6_random_active30000_s0.json",
+    "model": "random",
+    "tag": "",
+    "bits_per_char": 3.527613671613941,
+    "nats": 2.44515547058392,
+    "acc": 0.31360035211267606,
+    "params": null,
+    "seed": 0,
+    "train_chars": 300000
+  },
+  {
+    "file": "flylm_main_shuffled_rowsum_leak0.7_gain1.6_random_active30000_s0.json",
+    "model": "shuffled",
+    "tag": "",
+    "bits_per_char": 3.6096223374717655,
+    "nats": 2.5019995461047535,
+    "acc": 0.295481220657277,
+    "params": null,
+    "seed": 0,
+    "train_chars": 300000
+  },
+  {
+    "file": "flylm_seeds_fly_rowsum_leak0.7_gain1.6_random_active30000_s1.json",
+    "model": "fly",
+    "tag": "",
+    "bits_per_char": 3.8088873471511073,
+    "nats": 2.6401195257482395,
+    "acc": 0.2920334507042254,
+    "params": null,
+    "seed": 1,
+    "train_chars": 150000
+  },
+  {
+    "file": "flylm_seeds_fly_rowsum_leak0.7_gain1.6_random_active30000_s2.json",
+    "model": "fly",
+    "tag": "",
+    "bits_per_char": 3.8001889071422625,
+    "nats": 2.634090226580839,
+    "acc": 0.28983274647887325,
+    "params": null,
+    "seed": 2,
+    "train_chars": 150000
+  },
+  {
+    "file": "flylm_seeds_random_rowsum_leak0.7_gain1.6_random_active30000_s1.json",
+    "model": "random",
+    "tag": "",
+    "bits_per_char": 3.760115974115443,
+    "nats": 2.6063137860365315,
+    "acc": 0.30252347417840375,
+    "params": null,
+    "seed": 1,
+    "train_chars": 150000
+  },
+  {
+    "file": "flylm_seeds_random_rowsum_leak0.7_gain1.6_random_active30000_s2.json",
+    "model": "random",
+    "tag": "",
+    "bits_per_char": 3.762352904816829,
+    "nats": 2.607864308245305,
+    "acc": 0.3015698356807512,
+    "params": null,
+    "seed": 2,
+    "train_chars": 150000
+  },
+  {
+    "file": "flylm_smoke3_fly_global_s0.json",
+    "model": "fly",
+    "tag": "",
+    "bits_per_char": 5.960639551062597,
+    "nats": 4.131600499153137,
+    "acc": 0.15234375,
+    "params": null,
+    "seed": 0,
+    "train_chars": 48000
+  },
+  {
+    "file": "flylm_smoke_fly_global_s0.json",
+    "model": "fly",
+    "tag": "",
+    "bits_per_char": 5.951148688474733,
+    "nats": 4.125021934509277,
+    "acc": 0.22135416666666666,
+    "params": null,
+    "seed": 0,
+    "train_chars": 32000
+  },
+  {
+    "file": "flylm_sweep3_fly_rowsum_leak0.7_gain1.6_random_active30000_s0.json",
+    "model": "fly",
+    "tag": "",
+    "bits_per_char": 3.6958122531537234,
+    "nats": 2.561741843152402,
+    "acc": 0.28999533582089554,
+    "params": null,
+    "seed": 0,
+    "train_chars": 100000
+  },
+  {
+    "file": "flylm_sweep_fly_global_leak0.7_gain1.2_s0.json",
+    "model": "fly",
+    "tag": "",
+    "bits_per_char": 5.870385720654689,
+    "nats": 4.06904131107116,
+    "acc": 0.2614115168539326,
+    "params": null,
+    "seed": 0,
+    "train_chars": 100000
+  },
+  {
+    "file": "plastic_main_fly_fly_s0.json",
+    "model": "plastic_fly_fly_fly",
+    "tag": "",
+    "bits_per_char": 3.2519153966585734,
+    "nats": 2.2540559886133664,
+    "acc": 0.3658373063170441,
+    "params": 1182720,
+    "seed": 0,
+    "train_chars": 300000
+  },
+  {
+    "file": "plastic_main_fly_rand_s0.json",
+    "model": "plastic_fly_fly_rand",
+    "tag": "",
+    "bits_per_char": 3.228719012984511,
+    "nats": 2.2379774806705033,
+    "acc": 0.3663587604290822,
+    "params": 1182720,
+    "seed": 0,
+    "train_chars": 300000
+  },
+  {
+    "file": "plastic_main_rand_rand_s0.json",
+    "model": "plastic_fly_rand_rand",
+    "tag": "",
+    "bits_per_char": 3.267952955275529,
+    "nats": 2.265172377151774,
+    "acc": 0.3599274930472785,
+    "params": 1182720,
+    "seed": 0,
+    "train_chars": 300000
+  },
+  {
+    "file": "plastic_smoke_fly_fly_s0.json",
+    "model": "plastic_fly_fly_fly",
+    "tag": "",
+    "bits_per_char": 3.836242087875642,
+    "nats": 2.659080387156399,
+    "acc": 0.26882201032975767,
+    "params": 1182720,
+    "seed": 0,
+    "train_chars": 300000
+  },
+  {
+    "file": "transformer_main_M_s0.json",
+    "model": "transformer_M",
+    "tag": "",
+    "bits_per_char": 2.912571013686366,
+    "nats": 2.0188403863173265,
+    "acc": 0.4209735576923077,
+    "params": 421697,
+    "seed": 0,
+    "train_chars": 300000
+  },
+  {
+    "file": "transformer_main_S_s0.json",
+    "model": "transformer_S",
+    "tag": "",
+    "bits_per_char": 3.0751296150162655,
+    "nats": 2.1315174225049143,
+    "acc": 0.39115084134615385,
+    "params": 242561,
+    "seed": 0,
+    "train_chars": 300000
+  }
+]

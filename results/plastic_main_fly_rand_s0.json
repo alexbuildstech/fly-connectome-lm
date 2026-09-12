@@ -1,0 +1,82 @@
+{
+  "model": "plastic_fly_fly_rand",
+  "K": 1024,
+  "mask_nnz": 61494,
+  "trainable_params": 1182720,
+  "steps": 1500,
+  "batch": 12,
+  "T": 48,
+  "lr_w": 0.0005,
+  "lr_io": 0.001,
+  "leak": 0.7,
+  "gain": 1.2,
+  "train_chars": 300000,
+  "val_chars": 40000,
+  "seed": 0,
+  "val_nll_nats_per_char": 2.2379774806705033,
+  "val_bits_per_char": 3.228719012984511,
+  "val_acc": 0.3663587604290822,
+  "loss_curve": [
+    {
+      "step": 0,
+      "train_loss": 4.1940836906433105
+    },
+    {
+      "step": 100,
+      "train_loss": 3.0063209533691406
+    },
+    {
+      "step": 200,
+      "train_loss": 2.4284582138061523
+    },
+    {
+      "step": 300,
+      "train_loss": 2.2482247352600098
+    },
+    {
+      "step": 400,
+      "train_loss": 2.3186683654785156
+    },
+    {
+      "step": 500,
+      "train_loss": 2.172142744064331
+    },
+    {
+      "step": 600,
+      "train_loss": 2.121549606323242
+    },
+    {
+      "step": 700,
+      "train_loss": 2.0878725051879883
+    },
+    {
+      "step": 800,
+      "train_loss": 2.1273984909057617
+    },
+    {
+      "step": 900,
+      "train_loss": 2.073758602142334
+    },
+    {
+      "step": 1000,
+      "train_loss": 1.9191019535064697
+    },
+    {
+      "step": 1100,
+      "train_loss": 2.047180652618408
+    },
+    {
+      "step": 1200,
+      "train_loss": 1.9821066856384277
+    },
+    {
+      "step": 1300,
+      "train_loss": 2.11549973487854
+    },
+    {
+      "step": 1400,
+      "train_loss": 1.84724760055542
+    }
+  ],
+  "wall_seconds": 288.0785138607025
+}

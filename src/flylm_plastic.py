@@ -14,6 +14,7 @@ import argparse, json, math, os, sys, time
 import numpy as np
 import scipy.sparse as sp
 import torch
+import torch.nn as nn
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from reservoir_lib import load_corpus, load_adjacency, spectral_radius
