@@ -58,7 +58,7 @@ def main():
     x = torch.zeros(N, 1)
 
     def step(tok):
-        Z = torch.sparse.mm(At, x)
+        Z = torch.sparse.mm(At, x) * gain
         Z.index_add_(0, in_idx_t, B_enc_t[torch.tensor([tok])].T)
         x.mul_(1 - leak).add_(torch.tanh(Z), alpha=leak)
 

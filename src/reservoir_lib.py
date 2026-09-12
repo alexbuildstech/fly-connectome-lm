@@ -44,7 +44,7 @@ def spectral_radius(A, iters=60, seed=0):
 
 
 def normalize_connectome(A, norm="global", seed=0):
-    """Return A scaled to spectral radius 1.0 (variants: global / deg / log)."""
+    """Return A scaled to a live regime. Variants: global / deg / log / row (row-stochastic)."""
     A = A.copy()
     if norm == "log":
         A.data = np.log1p(A.data).astype(np.float32)
@@ -52,6 +52,14 @@ def normalize_connectome(A, norm="global", seed=0):
         outd = np.sqrt(np.maximum(A.getnnz(axis=1), 1)).astype(np.float32)
         ind = np.sqrt(np.maximum(A.getnnz(axis=0), 1)).astype(np.float32)
         A = (sp.diags(1.0 / outd) @ A @ sp.diags(1.0 / ind)).tocsr()
+    elif norm == "row":
+        outd = np.maximum(A.getnnz(axis=1), 1).astype(np.float32)
+        A = (sp.diags(1.0 / outd) @ A).tocsr()
+        return A  # edge-count normalized; residual gain ~ mean synapse weight
+    elif norm == "rowsum":
+        rowsum = np.asarray(A.sum(axis=1)).ravel()
+        A = (sp.diags(1.0 / np.maximum(rowsum, 1e-6)) @ A).tocsr()
+        return A  # TRUE row-stochastic: row weight-sums = 1; gain fully controlled by --gain
     rho = spectral_radius(A, seed=seed)
     if rho > 0:
         A = (A * (1.0 / rho)).tocsr()

@@ -87,10 +87,14 @@ def main():
     ap.add_argument("--train-chars", type=int, default=300_000)
     ap.add_argument("--val-chars", type=int, default=40_000)
     ap.add_argument("--tag", default="main")
+    ap.add_argument("--max-seconds", type=int, default=480)
     args = ap.parse_args()
     t0 = time.time()
     torch.manual_seed(args.seed)
     rng = np.random.default_rng(args.seed)
+    CKPT = "/home/z/my-project/data/malecns/ckpts"
+    os.makedirs(CKPT, exist_ok=True)
+    ck = f"{CKPT}/transformer_{args.tag}_{args.size}_s{args.seed}.pt"
 
     text, ids, _, _ = load_corpus()
     V = len(set(text))
@@ -109,7 +113,20 @@ def main():
     sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=args.lr, total_steps=args.steps,
                                                 pct_start=0.05)
     hist = []
-    for step in range(args.steps):
+    start_step = 0
+    if os.path.exists(ck):
+        z = torch.load(ck, weights_only=False)
+        model.load_state_dict(z["model"])
+        opt.load_state_dict(z["opt"])
+        sched.load_state_dict(z["sched"])
+        start_step = z["step"]
+        hist = z["hist"]
+        rng_states = z.get("rng", None)
+        if rng_states:
+            torch.set_rng_state(rng_states[0])
+            rng.bit_generator.state = rng_states[1]
+        print(f"[tf-{args.size}] resumed at step {start_step}", flush=True)
+    for step in range(start_step, args.steps):
         x, y = get_batch(train_ids, args.batch, args.ctx, rng)
         logits = model(x)
         loss = F.cross_entropy(logits.reshape(-1, V), y.reshape(-1))
@@ -122,6 +139,13 @@ def main():
             hist.append({"step": step, "train_loss": float(loss)})
             print(f"[tf-{args.size}] step {step} loss {float(loss):.4f} "
                   f"({time.time()-t0:.0f}s)", flush=True)
+        if (step + 1) % 200 == 0 or (step + 1) == args.steps:
+            torch.save({"model": model.state_dict(), "opt": opt.state_dict(),
+                        "sched": sched.state_dict(), "step": step + 1, "hist": hist,
+                        "rng": (torch.get_rng_state(), rng.bit_generator.state)}, ck)
+        if time.time() - t0 > args.max_seconds:
+            print(f"[tf-{args.size}] budget reached at step {step}, checkpointed", flush=True)
+            return
 
     nll, acc = evaluate(model, val_ids, args.ctx, V)
     res = {

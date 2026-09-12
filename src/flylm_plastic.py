@@ -78,10 +78,14 @@ def main():
     ap.add_argument("--train-chars", type=int, default=300_000)
     ap.add_argument("--val-chars", type=int, default=40_000)
     ap.add_argument("--tag", default="main")
+    ap.add_argument("--max-seconds", type=int, default=480)
     args = ap.parse_args()
     t0 = time.time()
     torch.manual_seed(args.seed)
     rng = np.random.default_rng(args.seed)
+    CKPT = "/home/z/my-project/data/malecns/ckpts"
+    os.makedirs(CKPT, exist_ok=True)
+    ck = f"{CKPT}/plastic_{args.tag}_{args.mode}_s{args.seed}.pt"
 
     text, ids, _, _ = load_corpus()
     V = len(set(text))
@@ -134,7 +138,19 @@ def main():
         return torch.from_numpy(x), torch.from_numpy(y)
 
     hist = []
-    for step in range(args.steps):
+    start_step = 0
+    if os.path.exists(ck):
+        z = torch.load(ck, weights_only=False)
+        model.load_state_dict(z["model"])
+        opt.load_state_dict(z["opt"])
+        start_step = z["step"]
+        hist = z["hist"]
+        rs = z.get("rng", None)
+        if rs:
+            torch.set_rng_state(rs[0])
+            rng.bit_generator.state = rs[1]
+        print(f"[plastic-{args.mode}] resumed at step {start_step}", flush=True)
+    for step in range(start_step, args.steps):
         x, y = get_batch()
         logits = run_batch(x)
         loss = torch.nn.functional.cross_entropy(logits.reshape(-1, V), y.reshape(-1))
@@ -146,6 +162,13 @@ def main():
             hist.append({"step": step, "train_loss": float(loss)})
             print(f"[plastic-{args.mode}] step {step} loss {float(loss):.4f} "
                   f"({time.time()-t0:.0f}s)", flush=True)
+        if (step + 1) % 100 == 0 or (step + 1) == args.steps:
+            torch.save({"model": model.state_dict(), "opt": opt.state_dict(),
+                        "step": step + 1, "hist": hist,
+                        "rng": (torch.get_rng_state(), rng.bit_generator.state)}, ck)
+        if time.time() - t0 > args.max_seconds:
+            print(f"[plastic-{args.mode}] budget reached at step {step}, checkpointed", flush=True)
+            return
 
     # ---- eval: contiguous-stream rollout over val (state carried across, no teacher reset) ----
     @torch.no_grad()
