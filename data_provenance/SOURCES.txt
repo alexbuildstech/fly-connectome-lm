@@ -1,0 +1,5 @@
+MaleCNS v1.0 flat connectome (minconf 0.5)
+URL: https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-data/flat-connectome/connectome-weights-male-cns-v1.0-minconf-0.5.feather
+size: 1051241946 bytes
+sha256(first 1MB): see connectome_meta.json source_head_sha256_8 after regeneration
+Corpus: tinyshakespeare (karpathy/char-rnn), 1115394 bytes

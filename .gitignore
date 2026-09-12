@@ -1,0 +1,14 @@
+# large raw downloads — not stored in git (provenance + processed artifacts instead)
+data/malecns/*.feather
+data/malecns/*.npy
+data/malecns/*.npz
+data/malecns/pairs_int64.npy
+data/malecns/neuron_pairs_int32.npy
+*.pt
+*.pth
+checkpoints/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+nohup.out
+*.log

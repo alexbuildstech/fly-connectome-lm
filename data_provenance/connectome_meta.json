@@ -1,0 +1,18 @@
+{
+  "n_bodies": 211577,
+  "nnz_unique_connections": 26028386,
+  "total_synapses": 125365936.0,
+  "density": 0.0005814472608434911,
+  "mean_out_weight": 592.531005859375,
+  "max_out_weight": 140897.0,
+  "mean_in_weight": 592.531005859375,
+  "max_in_weight": 120249.0,
+  "n_bodies_with_edges": 188778,
+  "n_isolated_bodies": 22799,
+  "n_strong_components": 30047,
+  "largest_strong_component": 181273,
+  "largest_strong_frac": 0.8567708210249696,
+  "n_weak_components": 22944,
+  "largest_weak_component": 188383,
+  "reciprocal_connection_pairs": 3876436
+}
