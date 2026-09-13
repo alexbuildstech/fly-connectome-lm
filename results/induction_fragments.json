@@ -1,0 +1,17 @@
+{
+  "text_fragments": {
+    "fly": {
+      "acc_first": 0.265625,
+      "acc_second": 0.284375,
+      "induction_gain": 0.01874999999999999
+    },
+    "transformer": {
+      "acc_first": 0.45,
+      "acc_second": 0.059375,
+      "induction_gain": -0.390625
+    },
+    "L": 16,
+    "n_rep": 40,
+    "note": "fragments drawn from held-out val text; char statistics familiar to both models"
+  }
+}

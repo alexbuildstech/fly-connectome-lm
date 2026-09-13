@@ -12,3 +12,10 @@ __pycache__/
 .ipynb_checkpoints/
 nohup.out
 *.log
+data/malecns/processed/adjacency*.npz
+data/malecns/processed/fly_csr_int32.pt
+data/malecns/processed/ckpts/
+data/malecns/ckpts/
+results/probes_*.npz
+results/fullstate_*.npz
+fly-connectome-lm/

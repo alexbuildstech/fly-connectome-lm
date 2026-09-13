@@ -1,0 +1,15 @@
+{
+  "fly": {
+    "acc_first": 0.0125,
+    "acc_second": 0.0109375,
+    "induction_gain": -0.0015625000000000014
+  },
+  "transformer": {
+    "acc_first": 0.018333333333333333,
+    "acc_second": 0.01875,
+    "induction_gain": 0.0004166666666666659
+  },
+  "L": 16,
+  "n_rep": 40,
+  "protocol": "zero-shot, both models trained on Shakespeare only"
+}

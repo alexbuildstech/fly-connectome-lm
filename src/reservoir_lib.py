@@ -9,7 +9,7 @@ import numpy as np
 import scipy.sparse as sp
 
 DATA = "/home/z/my-project/data/malecns/processed"
-CORPUS = "/home/z/my-project/fly-connectome-lm/data_provenance/tinyshakespeare_input.txt"
+CORPUS = "/home/z/my-project/data_provenance/tinyshakespeare_input.txt"
 
 
 # ---------------------------------------------------------------- corpus

@@ -1,0 +1,25 @@
+{
+  "transformer": {
+    "trainable_params": 6248065,
+    "frozen_params": 0,
+    "steps": 4000,
+    "batch": 32,
+    "ctx": 128,
+    "tokens_seen": 16384000,
+    "wall_hours": 1.21,
+    "train_flops_est": 614209781760000
+  },
+  "fly_full": {
+    "trainable_params": 13752570,
+    "frozen_params": 26028386,
+    "neurons": 211577,
+    "synapses": 125365936,
+    "connections": 26028386,
+    "sensory_inputs": 17937,
+    "positions": 16427,
+    "streams": 64,
+    "tokens_seen": 1051328,
+    "wall_hours": 1.76,
+    "train_flops_est": 15313530170284
+  }
+}

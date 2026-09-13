@@ -1,0 +1,7 @@
+{
+  "trigram_overlap_fly_vs_val": 0.7537562604340567,
+  "trigram_overlap_tf_vs_val": 0.9265442404006677,
+  "distinct_trigram_fly": 0.7111853088480802,
+  "distinct_trigram_tf": 0.6485809682804674,
+  "n_gen": 1200
+}

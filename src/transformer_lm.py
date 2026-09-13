@@ -15,7 +15,7 @@ import torch.nn.functional as F
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from reservoir_lib import load_corpus
 
-RESULTS = "/home/z/my-project/fly-connectome-lm/results"
+RESULTS = "/home/z/my-project/results"
 torch.set_num_threads(2)
 
 
@@ -78,7 +78,7 @@ def evaluate(model, val_ids, ctx, V):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--size", default="M", choices=["M", "S"])
+    ap.add_argument("--size", default="L", choices=["L", "M", "S"])
     ap.add_argument("--steps", type=int, default=3000)
     ap.add_argument("--batch", type=int, default=32)
     ap.add_argument("--ctx", type=int, default=64)
@@ -101,11 +101,13 @@ def main():
     train_ids = ids[:args.train_chars]
     val_ids = ids[args.train_chars:args.train_chars + args.val_chars]
 
-    if args.size == "M":
-        d, h, ffn = 128, 4, 512
+    if args.size == "L":
+        d, h, ffn, nl = 320, 5, 1280, 5
+    elif args.size == "M":
+        d, h, ffn, nl = 128, 4, 512, 2
     else:
-        d, h, ffn = 96, 4, 384
-    model = TinyGPT(V, d, 2, h, ffn, args.ctx)
+        d, h, ffn, nl = 96, 4, 384, 2
+    model = TinyGPT(V, d, nl, h, ffn, args.ctx)
     n_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
     print(f"[tf-{args.size}] params={n_params/1e3:.1f}k", flush=True)
 

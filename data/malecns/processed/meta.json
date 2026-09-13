@@ -1,0 +1,20 @@
+{
+  "source_url": "https://storage.googleapis.com/flyem-male-cns/v1.0/connectome-data/flat-connectome/connectome-weights-male-cns-v1.0-minconf-0.5.feather",
+  "restriction": "pairs restricted to annotated bodies (body-annotations file, 211,577 ids)",
+  "source_head_sha256_8": "6bd8d717",
+  "n_annotated_bodies": 211577,
+  "raw_rows_total": 151856684,
+  "raw_rows_kept": 26028386,
+  "raw_weight_range": [
+    1,
+    2591
+  ],
+  "nnz_unique_neuron_connections": 26028386,
+  "total_synapses": 125365936.0,
+  "density": 0.0005814472608434911,
+  "mean_out_weight": 592.531005859375,
+  "max_out_weight": 140897.0,
+  "mean_in_weight": 592.531005859375,
+  "max_in_weight": 120249.0,
+  "n_isolated_bodies": 22799
+}
