@@ -1,0 +1,29 @@
+{
+  "sign_rule": "inh={gaba,histamine}; edge sign = presynaptic neuron sign",
+  "neurons_labeled_frac": 0.7784305477438473,
+  "neurons_inhibitory_frac": 0.1427848962788961,
+  "neurons_inhibitory_frac_labeled_only": 0.18342663541755214,
+  "variants": [
+    {
+      "variant": "flysigned",
+      "edges": 26028386,
+      "edges_inhibitory_frac": 0.19478510884232314,
+      "synapses_inhibitory_absfrac": 0.21201948821544647,
+      "neurons_inhibitory_frac": 0.1427848962788961
+    },
+    {
+      "variant": "shuffledsigned",
+      "edges": 26028386,
+      "edges_inhibitory_frac": 0.19478510884232314,
+      "synapses_inhibitory_absfrac": 0.19474206864833832,
+      "neurons_inhibitory_frac": 0.1427848962788961
+    },
+    {
+      "variant": "randomsigned",
+      "edges": 26001007,
+      "edges_inhibitory_frac": 0.19467442164836155,
+      "synapses_inhibitory_absfrac": 0.19482558965682983,
+      "neurons_inhibitory_frac": 0.1427848962788961
+    }
+  ]
+}

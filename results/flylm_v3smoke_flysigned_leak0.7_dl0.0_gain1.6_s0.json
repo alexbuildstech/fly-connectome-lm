@@ -1,0 +1,30 @@
+{
+  "model": "flylm-v3frozen-flysigned",
+  "tag": "v3smoke",
+  "variant": "flysigned",
+  "bits_per_char": [
+    0.0
+  ],
+  "acc": [
+    0.0
+  ],
+  "val_positions": 1,
+  "burn_in": 200,
+  "N_neurons": 211577,
+  "nnz": 26028386,
+  "n_sensory": 17937,
+  "leak": "0.7",
+  "gain": 1.6,
+  "in_gain": 2.0,
+  "delay_frac": 0.0,
+  "signed": true,
+  "accum": 4,
+  "lr": 0.001,
+  "wd": 0.01,
+  "trainable_params": 13752570,
+  "frozen_params": 26028386,
+  "wall_seconds": 48.31428074836731,
+  "train_chars": 4000,
+  "val_chars": 2000,
+  "loss_curve": []
+}
