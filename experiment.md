@@ -195,3 +195,112 @@ on a file created ad hoc in session 2).
 - GitHub: `alexbuildstech/fly-connectome-lm`, now PUBLIC; token used only in git remote config (never committed).
 - Session 3 (cont., 2026-09-14): added "A note on AI use" at the end of the README (user request). Plain disclosure: an AI agent (GLM) did the bulk of code/analysis/prose under human direction; all numbers remain independently recomputable from committed artifacts.
 - Verdict tables live in §5; the direct answer in §6.
+
+## 10. Session 4 (2026-09-14, Kaggle GPU): the critique-driven v3 campaign
+
+The user supplied a Kaggle account (T4 x2 / P100) together with two procedural
+warnings that both proved prophetic: confirm GPU usage before launching, and
+treat launched notebooks as uncancellable. Session 4 therefore ran under a
+strict protocol: read-only status checks before any launch, positive-control
+selftests before any training code touches real data, and per-stage
+checkpointing so that a crash preserves everything computed so far.
+
+### 10.1 What was run (full scale, GPU)
+
+Two kernels, both at full connectome scale (N = 211,577; nnz = 26,028,386;
+17,937 sensory inputs; identical corpus/protocol as §5):
+
+1. **`flylm-v3-frozen-battery-gpu`** — frozen-synapse battery, one variable at
+   a time: E/I-signed graphs (neurotransmitter-based signs, critique #2),
+   multi-timescale leak partitions (critique #3/#4: 0.3/0.7/0.99 and
+   combinations), synaptic delays (30% of edges one-step delayed), and a
+   stored-projection nonlinear-readout arm (critique #6).
+2. **`flylm-v3-plastic-bptt-gpu`** — BPTT on trainable synapses (critique #1)
+   through the FULL 211,577-neuron graph via a custom `PlasticSpMM` autograd
+   function (forward = native CSR spmm; grad_x = spmm with A^T; grad_w =
+   chunked gather over the trainable edge subset), 3,000 steps, batch 8,
+   T = 24 BPTT window, with the E/I-signed × plastic combination as the
+   headline mode and three controls.
+
+### 10.2 Headline result: the real wiring finally separates — under plasticity
+
+Plastic battery (all numbers val bpc / top-1 acc on the 64,000-char held-out
+split; 3,000 optimizer steps; per-mode JSON in `results/`):
+
+| mode | wiring | init | trainable syn | bpc ↓ | acc ↑ |
+|---|---|---|---|---|---|
+| **flysigned_fly** | real + E/I signs | signed real counts, ρ=1.2 | **26,028,386** | **3.0571** | 0.3779 |
+| fly_fly | real | real counts, ρ=1.2 | 26,028,386 | 3.0634 | 0.3792 |
+| fly_rand | real | random (20% trained) | 5,205,677 | 3.2970 | 0.3620 |
+| fly_frozen | real | real counts, frozen | 0 | 3.3808 | 0.3145 |
+| rand_rand | config-random | random (20% trained) | 5,200,238 | 3.3831 | 0.3451 |
+
+Readings, in order of importance:
+
+- **Real vs random, decisive pair:** flysigned_fly 3.0571 vs rand_rand
+  3.3831 — a **0.326 bpc / 8.6% perplexity gap in favor of the real
+  connectome**, with the same advantage on accuracy (0.378 vs 0.345). Under
+  the frozen reservoir paradigm of §5 the two were statistically
+  indistinguishable; the negative verdict of §6 was therefore
+  **implementation-bound, not biological** — it took trainable synapses
+  (critique #1) plus E/I signs (critique #2) for the specific wiring to pay.
+- **Monotone plasticity gradient:** frozen (3.381) → random init on real
+  wiring, 20% trained (3.297) → real init, fully trained (3.063). Every step
+  that adds real structure or real-valued init improves the model. This
+  ordering is the strongest evidence in the whole project that the connectome
+  is doing work and that the pipeline can detect it.
+- **E/I signs help the real graph beyond counts:** flysigned_fly edges out
+  fly_fly (3.0571 vs 3.0634 bpc) at equal parameter count. The margin is
+  small (one seed) but in the predicted direction; signed-init also trains
+  more stably (see the frozen battery below where unsigned fly degrades).
+- **Transformer still far ahead** (2.266 bpc, §5): plasticity closes roughly
+  a third of the fly-transformer gap; it does not close it.
+
+### 10.3 Frozen battery (linear readout): signs help the fly graph, controls still ahead
+
+| variant | leak | delay | bpc ↓ | acc ↑ |
+|---|---|---|---|---|
+| flysigned | 0.7 | 0 | 3.3315 | 0.3322 |
+| shuffledsigned | 0.7 | 0 | 3.2468 | 0.3482 |
+| randomsigned | 0.7 | 0 | 3.1756 | 0.3622 |
+| fly | 0.9 | 0 | 3.6283 | 0.2894 |
+| fly | 0.99 | 0 | 3.6287 | 0.2884 |
+| fly | multi 0.3/0.7/0.99 | 0 | 3.6821 | 0.2983 |
+| fly | 0.7 | 0.3 | 3.6581 | 0.2882 |
+| fly | 0.99 | 0.3 | 3.6384 | 0.2831 |
+
+Two honest observations. First, adding neurotransmitter-based E/I signs
+improves the real graph by ~0.30 bpc over its unsigned self (3.3315 vs
+3.63–3.68 across the leak/delay variants) — the largest single frozen-family
+improvement in the project, confirming critique #2. Second, at frozen
+synapses the signed shuffled/random controls still finish ahead (3.2468 /
+3.1756). Combined with the plastic battery this localizes the value of the
+real wiring precisely: **the signed real graph wins when synapses can adapt;
+from frozen features alone it does not.**
+
+### 10.4 Incident report: the 62-minute crash, and what it changed
+
+The frozen battery crashed in its final stage (`nonlinear_arm`) with
+`IndexError: boolean index did not match indexed array along axis 0;
+size of axis is 12800 but size of corresponding boolean axis is 200` —
+after all 8 runs had completed and saved. Root cause: the storage loop
+appended a (64, 4096) projection block and one (64,) target row per stored
+position, but the arm treated F as one-row-per-position. Two further latent
+bugs were found in the same stage while fixing it: probe lag labels were 4×
+the actual lags (roll by k·proj_every *rows* labeled as k·proj_every
+*chars*), and the intended "fly multi/0.99" nonlinear arms pointed at glob
+patterns that match no saved filename.
+
+Per the user's warning, the crash triggered a standing rule: **no kernel is
+launched that has not passed a positive-control selftest on the exact
+artifact.** The replacement nonlinear arm (`kaggle/frozen/fixup/`) rebuilds
+correct alignment from the already-saved probe files (F → (P, B, 4096);
+targets from the lag-0 slab; stream-major flattening on both sides), and its
+selftest plants a linearly decodable signal that the arm must recover
+(achieved: 0.04–0.26 bpc at the planted lag; signal-free lags within 0.08 of
+chance). Writing the selftest exposed two more real defects before any GPU
+time was spent: one-hot ridge regression cannot be evaluated with
+cross-entropy (probability-scale outputs vs logit-scale loss caps softmax
+performance), and raw projection features (row L2 ≈ 118) diverge a
+zero-init LR at lr = 0.05 without per-feature standardization. All fixes are
+documented in the kernel source and applied identically to the local reruns.

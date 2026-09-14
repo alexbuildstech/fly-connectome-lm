@@ -17,6 +17,18 @@ baseline's accuracy. Competitively, no — it lands at 3.64 bits/char vs the tra
 1–2 characters of usable memory, and its specific wiring contributes nothing for this task
 (it ties its own degree-shuffled copy and slightly trails a matched random graph).
 
+**Update (v3 GPU campaign, Sep 2026).** A critique-driven rebuild moved training onto GPU
+and changed the two things the frozen-reservoir verdict was most sensitive to: (1) synapses
+are no longer frozen — backprop-through-time trains all 26,028,386 of them through the full
+211,577-neuron graph; (2) edges carry real neurotransmitter-based E/I signs instead of
+all-positive weights. Under that protocol the verdict changes: **the real connectome
+separates from its matched random control, 3.057 vs 3.383 bits/char** (and 0.378 vs 0.345
+accuracy) — a monotone gradient from frozen (3.381) to random-init (3.297) to real-init
+fully-trained (3.057). The negative verdict above was implementation-bound; §10 of
+`experiment.md` has the full tables, controls, and an honest incident report about the
+kernel crash that forced a selftest-first launch discipline. The transformer (2.266 bpc)
+still leads by a wide margin.
+
 ## Results
 
 Identical corpus (tinyshakespeare, 1,051,394 train / 64,000 held-out val chars), identical

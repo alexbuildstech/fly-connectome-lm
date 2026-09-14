@@ -1,0 +1,66 @@
+{
+  "model": "plastic_v3_fly_frozen",
+  "mode": "fly_frozen",
+  "train_frac": 0.0,
+  "N": 211577,
+  "nnz": 26028386,
+  "trainable_synapses": 0,
+  "trainable_params": 15129987,
+  "steps_done": 3000,
+  "batch": 8,
+  "T": 24,
+  "lr_w": 0.0005,
+  "lr_io": 0.001,
+  "leak": 0.7,
+  "gain": 1.2,
+  "train_chars": 800000,
+  "val_chars": 24000,
+  "seed": 0,
+  "val_bits_per_char": 3.380835949325116,
+  "val_acc": 0.3145131047126964,
+  "loss_curve": [
+    {
+      "step": 0,
+      "loss": 4.171679973602295
+    },
+    {
+      "step": 300,
+      "loss": 2.498826026916504
+    },
+    {
+      "step": 600,
+      "loss": 2.5542657375335693
+    },
+    {
+      "step": 900,
+      "loss": 2.615635633468628
+    },
+    {
+      "step": 1200,
+      "loss": 2.3517203330993652
+    },
+    {
+      "step": 1500,
+      "loss": 2.407649278640747
+    },
+    {
+      "step": 1800,
+      "loss": 2.3209502696990967
+    },
+    {
+      "step": 2100,
+      "loss": 2.311406373977661
+    },
+    {
+      "step": 2400,
+      "loss": 2.5589098930358887
+    },
+    {
+      "step": 2700,
+      "loss": 2.4800045490264893
+    }
+  ],
+  "wall_seconds": 2897.671552181244,
+  "device": "cuda",
+  "signed": false
+}

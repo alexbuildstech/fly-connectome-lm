@@ -1,0 +1,83 @@
+{
+  "model": "flylm-v3frozen-randomsigned",
+  "tag": "v3",
+  "variant": "randomsigned",
+  "bits_per_char": [
+    3.17557430267334
+  ],
+  "acc": [
+    0.3622497022151947
+  ],
+  "val_positions": 51136,
+  "burn_in": 200,
+  "N_neurons": 211577,
+  "nnz": 25999164,
+  "n_sensory": 17937,
+  "leak": "0.7",
+  "gain": 1.6,
+  "delay_frac": 0.0,
+  "signed": true,
+  "accum": 4,
+  "trainable_params": 13752570,
+  "frozen_params": 25999164,
+  "wall_seconds": 626.6137897968292,
+  "train_wall_seconds": 586.8728091716766,
+  "train_chars": 1051394,
+  "val_chars": 64000,
+  "device": "cuda",
+  "loss_curve": [
+    {
+      "pos": 0,
+      "loss": 4.172306060791016
+    },
+    {
+      "pos": 1368,
+      "loss": 2.46429443359375
+    },
+    {
+      "pos": 2736,
+      "loss": 2.4607553482055664
+    },
+    {
+      "pos": 4104,
+      "loss": 2.3857462406158447
+    },
+    {
+      "pos": 5472,
+      "loss": 2.141585111618042
+    },
+    {
+      "pos": 6840,
+      "loss": 2.1723289489746094
+    },
+    {
+      "pos": 8208,
+      "loss": 2.3367786407470703
+    },
+    {
+      "pos": 9576,
+      "loss": 2.114393949508667
+    },
+    {
+      "pos": 10944,
+      "loss": 2.0873026847839355
+    },
+    {
+      "pos": 12312,
+      "loss": 1.991572618484497
+    },
+    {
+      "pos": 13680,
+      "loss": 2.2551584243774414
+    },
+    {
+      "pos": 15048,
+      "loss": 2.2544500827789307
+    },
+    {
+      "pos": 16416,
+      "loss": 2.185706377029419
+    }
+  ],
+  "probes_path": "probes_v3_randomsigned_0.7_dl0.0.npz"
+}

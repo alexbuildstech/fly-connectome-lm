@@ -1,0 +1,66 @@
+{
+  "model": "plastic_v3_rand_rand",
+  "mode": "rand_rand",
+  "train_frac": 0.2,
+  "N": 211577,
+  "nnz": 26001189,
+  "trainable_synapses": 5200238,
+  "trainable_params": 41131176,
+  "steps_done": 3000,
+  "batch": 8,
+  "T": 24,
+  "lr_w": 0.0005,
+  "lr_io": 0.001,
+  "leak": 0.7,
+  "gain": 1.2,
+  "train_chars": 800000,
+  "val_chars": 24000,
+  "seed": 0,
+  "val_bits_per_char": 3.3830973054054927,
+  "val_acc": 0.34513938080753365,
+  "loss_curve": [
+    {
+      "step": 0,
+      "loss": 4.173083782196045
+    },
+    {
+      "step": 300,
+      "loss": 3.0509984493255615
+    },
+    {
+      "step": 600,
+      "loss": 2.9301373958587646
+    },
+    {
+      "step": 900,
+      "loss": 2.7770392894744873
+    },
+    {
+      "step": 1200,
+      "loss": 2.629671335220337
+    },
+    {
+      "step": 1500,
+      "loss": 2.5447652339935303
+    },
+    {
+      "step": 1800,
+      "loss": 2.3842110633850098
+    },
+    {
+      "step": 2100,
+      "loss": 2.371767520904541
+    },
+    {
+      "step": 2400,
+      "loss": 2.657674551010132
+    },
+    {
+      "step": 2700,
+      "loss": 2.543386220932007
+    }
+  ],
+  "wall_seconds": 4423.08044552803,
+  "device": "cuda",
+  "signed": false
+}
