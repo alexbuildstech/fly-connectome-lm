@@ -1,0 +1,12 @@
+{
+  "id": "alexazander/flylm-v3-frozen-battery-gpu",
+  "title": "FlyLM v3 Frozen Battery GPU",
+  "code_file": "kaggle_run_frozen.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_internet": "false",
+  "dataset_sources": ["alexazander/fly-connectome-v3"],
+  "machine_shape": "NvidiaTeslaT4"
+}

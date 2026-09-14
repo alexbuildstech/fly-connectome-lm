@@ -1,0 +1,12 @@
+{
+  "id": "alexazander/flylm-v3-odor-task-gpu",
+  "title": "FlyLM v3 Odor Task GPU",
+  "code_file": "kaggle_run_flytask.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_internet": "false",
+  "dataset_sources": ["alexazander/fly-connectome-v3"],
+  "machine_shape": "NvidiaTeslaT4"
+}

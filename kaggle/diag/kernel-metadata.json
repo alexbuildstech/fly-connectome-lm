@@ -1,0 +1,11 @@
+{
+  "id": "alexazander/flylm-v3-mount-diag",
+  "title": "FlyLM v3 Mount Diag",
+  "code_file": "diag.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": "true",
+  "enable_gpu": "false",
+  "enable_internet": "false",
+  "dataset_sources": ["alexazander/fly-connectome-v3"]
+}
