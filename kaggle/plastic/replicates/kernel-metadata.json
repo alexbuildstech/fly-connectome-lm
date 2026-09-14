@@ -1,0 +1,14 @@
+{
+  "id": "alexazander/flylm-v3-plastic-replicates",
+  "title": "FlyLM v3 Plastic Replicates",
+  "code_file": "flylm-v3-plastic-replicates.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_internet": "false",
+  "dataset_sources": ["alexazander/fly-connectome-v3"],
+  "kernel_sources": [],
+  "competition_sources": [],
+  "model_sources": []
+}
