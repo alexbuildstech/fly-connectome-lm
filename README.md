@@ -323,3 +323,17 @@ without retraining; delete them freely, nothing depends on them at runtime.
 - All search snapshots backing the background claims (release timeline, Doom/crypto
   projects) are committed under `data_provenance/research_searches/` so the provenance of
   every factual statement can be checked without re-searching.
+
+## A note on AI use
+
+For transparency: most of this project was built by an AI coding agent (GLM, via Z.ai)
+working from one human's instructions — the pipeline code, the debugging, the analysis,
+and the prose you're reading. It's 2026 and this is how most small projects get made, so
+nobody should be surprised; saying it plainly just beats pretending otherwise. What the
+human supplied was the question, the constraints ("full model, no weak versions"), and
+every call that mattered.
+
+The practical upside of disclosing this: nothing here asks you to trust anyone's word.
+Every number in this README is a committed JSON you can recompute from a fresh clone,
+and every background claim is backed by a search snapshot in `data_provenance/`.
+Verify, don't believe.
