@@ -6,20 +6,21 @@ import sys
 import numpy as np
 import torch
 
-sys.path.insert(0, "/home/z/my-project/src")
-DATA = "/home/z/my-project/data/malecns/processed"
-RESULTS = "/home/z/my-project/results"
+import repo_paths
+sys.path.insert(0, repo_paths.SRC)
+DATA = repo_paths.PROCESSED
+RESULTS = repo_paths.RESULTS
 torch.set_num_threads(2)
 V = 65
 
 ids = np.load(f"{DATA}/corpus_ids.npy")
 VAL = ids[1_051_394:]
 
-sys.path.insert(0, "/home/z/my-project/scripts")
+sys.path.insert(0, repo_paths.SCRIPTS)
 from importlib import util as _util
-spec = _util.spec_from_file_location("ev", "/home/z/my-project/scripts/06_eval_suite.py")
+spec = _util.spec_from_file_location("ev", f"{repo_paths.SCRIPTS}/06_eval_suite.py")
 # avoid running main: load source and exec only defs
-src = open("/home/z/my-project/scripts/06_eval_suite.py").read().replace(
+src = open(f"{repo_paths.SCRIPTS}/06_eval_suite.py").read().replace(
     'if __name__ == "__main__":\n    part = sys.argv[1]\n    {"bigram": part_bigram, "probes": part_probes,\n     "induction": part_induction, "generate": part_generate}[part]()', "")
 ev = {}
 exec(src, ev)
@@ -45,12 +46,12 @@ for f in frags:
     fly_second.append(float((pred[L:] == tgt).mean()))
 
 # transformer
-tl = {"__file__": "/home/z/my-project/src/transformer_lm.py"}
-tsrc = open("/home/z/my-project/src/transformer_lm.py").read().replace(
+tl = {"__file__": f"{repo_paths.SRC}/transformer_lm.py"}
+tsrc = open(f"{repo_paths.SRC}/transformer_lm.py").read().replace(
     'if __name__ == "__main__":\n    main()', "")
 exec(tsrc, tl)
 model = tl["TinyGPT"](V, 320, 5, 4, 1280, 128)
-z = torch.load("/home/z/my-project/data/malecns/ckpts/transformer_full_L_s0.pt",
+z = torch.load(f"{repo_paths.CKPT}/transformer_full_L_s0.pt",
                weights_only=False)
 model.load_state_dict(z["model"])
 model.eval()

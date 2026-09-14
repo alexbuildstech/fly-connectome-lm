@@ -10,6 +10,8 @@ Usage (repeat until done):
   python flylm_esn.py --variant fly --norm global --leak 0.7 --gain 1.2 --min-weight 2 \
       --seed 0 --train-chars 300000 --tag main
 """
+import os as _os
+_R = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))  # repo root
 import argparse, json, os, sys, time
 import numpy as np
 import scipy.sparse as sp
@@ -19,8 +21,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from reservoir_lib import (load_corpus, load_adjacency, normalize_connectome,
                            random_graph_like, shuffled_weights, DATA)
 
-RESULTS = "/home/z/my-project/fly-connectome-lm/results"
-CKPT = "/home/z/my-project/data/malecns/ckpts"
+RESULTS = f"{_R}/fly-connectome-lm/results"
+CKPT = f"{_R}/data/malecns/ckpts"
 torch.set_num_threads(2)
 
 

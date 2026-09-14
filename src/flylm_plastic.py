@@ -10,6 +10,8 @@ Controls (same dynamics, same trainable-param count):
   --mode fly_rand   : fly mask, weights randomly initialized
   --mode rand_rand  : random mask (same nnz), random init
 """
+import os as _os
+_R = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))  # repo root
 import argparse, json, math, os, sys, time
 import numpy as np
 import scipy.sparse as sp
@@ -19,7 +21,7 @@ import torch.nn as nn
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from reservoir_lib import load_corpus, load_adjacency, spectral_radius
 
-RESULTS = "/home/z/my-project/fly-connectome-lm/results"
+RESULTS = f"{_R}/fly-connectome-lm/results"
 torch.set_num_threads(2)
 
 
@@ -84,7 +86,7 @@ def main():
     t0 = time.time()
     torch.manual_seed(args.seed)
     rng = np.random.default_rng(args.seed)
-    CKPT = "/home/z/my-project/data/malecns/ckpts"
+    CKPT = f"{_R}/data/malecns/ckpts"
     os.makedirs(CKPT, exist_ok=True)
     ck = f"{CKPT}/plastic_{args.tag}_{args.mode}_s{args.seed}.pt"
 

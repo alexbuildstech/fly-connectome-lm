@@ -29,9 +29,9 @@ import torch
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from reservoir_lib import load_corpus
 
-RESULTS = "/home/z/my-project/results"
-CKPT = "/home/z/my-project/data/malecns/ckpts"
-DATA = "/home/z/my-project/data/malecns/processed"
+from repo_paths import CKPT, PROCESSED, RESULTS
+
+DATA = PROCESSED
 torch.set_num_threads(2)
 torch.set_warn_always(False)
 

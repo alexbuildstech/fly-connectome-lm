@@ -1,0 +1,9 @@
+# Python 3.12 recommended (tested: 3.12.14, torch 2.14.0+cpu, scipy 1.14.1).
+# CPU-only is sufficient: every arm in the paper trains on 2 CPU cores / 4 GB RAM.
+torch>=2.2
+numpy>=1.26
+scipy>=1.11
+pandas>=2.0
+pyarrow>=14
+scikit-learn>=1.4
+matplotlib>=3.8

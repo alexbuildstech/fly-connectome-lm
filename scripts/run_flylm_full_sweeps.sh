@@ -1,6 +1,6 @@
 #!/bin/bash
 # Sequential full-model sweeps: fly -> shuffled -> random
-cd /home/z/my-project
+cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 for V in fly shuffled random; do
   echo "=== START variant=$V $(date) ==="
   until python3 src/flylm_full.py --variant $V --tag full --max-seconds 7200 2>&1 | grep -E "RESULT|train [0-9]+000/|val [0-9]+00/|budget|Error|RESULT"; do

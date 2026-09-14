@@ -8,6 +8,8 @@ Output:
   data/malecns/processed/adjacency_full.npz   (CSR float32, int32 indices)
   data/malecns/processed/adjacency_meta.json
 """
+import os as _os
+_R = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))  # repo root
 import json
 import os
 import time
@@ -16,8 +18,8 @@ import numpy as np
 import pyarrow.ipc as ipc
 import scipy.sparse as sp
 
-SRC = "/home/z/my-project/data/connectome-weights.feather"
-OUT_DIR = "/home/z/my-project/data/malecns/processed"
+SRC = f"{_R}/data/connectome-weights.feather"
+OUT_DIR = f"{_R}/data/malecns/processed"
 os.makedirs(OUT_DIR, exist_ok=True)
 
 t0 = time.time()

@@ -1,9 +1,11 @@
 """Compute meta stats for adjacency.npz (memory-lean, separate process)."""
+import os as _os
+_R = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))  # repo root
 import numpy as np
 import scipy.sparse as sp
 import json
 
-OUT = "/home/z/my-project/data/malecns/processed"
+OUT = f"{_R}/data/malecns/processed"
 A = sp.load_npz(f"{OUT}/adjacency.npz").tocsr()
 N = A.shape[0]
 in_w = np.asarray(A.sum(axis=0)).ravel()

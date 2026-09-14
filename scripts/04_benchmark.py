@@ -1,4 +1,6 @@
 """Benchmark: sparse spmv (full 26M-nnz connectome) + full-state readout gemm on this box."""
+import os as _os
+_R = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))  # repo root
 import time
 import numpy as np
 import scipy.sparse as sp
@@ -6,7 +8,7 @@ import torch
 
 torch.set_num_threads(2)
 
-A = sp.load_npz("/home/z/my-project/data/malecns/processed/adjacency.npz").tocsr().astype(np.float32)
+A = sp.load_npz(f"{_R}/data/malecns/processed/adjacency.npz").tocsr().astype(np.float32)
 rowsum = np.asarray(A.sum(axis=1)).ravel()
 A = (sp.diags(1.0 / np.maximum(rowsum, 1e-6)) @ A).tocsr()
 N = A.shape[0]

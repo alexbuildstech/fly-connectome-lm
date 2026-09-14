@@ -5,7 +5,8 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from reservoir_lib import load_corpus
 
-RESULTS = "/home/z/my-project/fly-connectome-lm/results"
+import repo_paths
+RESULTS = repo_paths.RESULTS
 
 text, ids, stoi, itos = load_corpus()
 V = len(stoi)

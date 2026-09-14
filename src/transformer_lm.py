@@ -15,7 +15,8 @@ import torch.nn.functional as F
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from reservoir_lib import load_corpus
 
-RESULTS = "/home/z/my-project/results"
+import repo_paths
+RESULTS = repo_paths.RESULTS
 torch.set_num_threads(2)
 
 
@@ -92,7 +93,7 @@ def main():
     t0 = time.time()
     torch.manual_seed(args.seed)
     rng = np.random.default_rng(args.seed)
-    CKPT = "/home/z/my-project/data/malecns/ckpts"
+    CKPT = repo_paths.CKPT
     os.makedirs(CKPT, exist_ok=True)
     ck = f"{CKPT}/transformer_{args.tag}_{args.size}_s{args.seed}.pt"
 

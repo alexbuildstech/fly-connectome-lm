@@ -5,6 +5,8 @@ Outputs:
   results/fig_learning.png  — training curves (transformer, plastic runs)
   results/fig_main.png      — bar chart: bits/char by model
 """
+import os as _os
+_R = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))  # repo root
 import json, glob, os
 import numpy as np
 import matplotlib
@@ -17,7 +19,7 @@ import matplotlib.pyplot as plt
 plt.rcParams["font.sans-serif"] = ["DejaVu Sans"]
 plt.rcParams["axes.unicode_minus"] = False
 
-RESULTS = "/home/z/my-project/fly-connectome-lm/results"
+RESULTS = f"{_R}/fly-connectome-lm/results"
 
 rows = []
 for fp in sorted(glob.glob(f"{RESULTS}/*.json")):

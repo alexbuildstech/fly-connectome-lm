@@ -1,8 +1,8 @@
 #!/bin/bash
 # Sequential ESN experiment batch: sweep -> main table -> sensitivity.
-cd /home/z/my-project/fly-connectome-lm/src
-LOG=/home/z/my-project/fly-connectome-lm/results/batch_esn.log
-mkdir -p /home/z/my-project/fly-connectome-lm/results
+cd "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LOG=../results/batch_esn.log
+mkdir -p ../results
 
 echo "=== ESN BATCH START $(date) ===" > $LOG
 

@@ -33,7 +33,8 @@ Requirements set by the user: NOT oversimplified, NOT a mock, NOT a weak version
 | `body-annotations-male-cns-v1.0-minconf-0.5.feather` | 14.5 MB | 211,577 bodies × 36 columns (type, class, superclass, status…) |
 | `body-neurotransmitters-male-cns-v1.0.feather` | 43.3 MB | NT predictions per body (acetylcholine, gaba, …) |
 
-Raw feathers are NOT in git (>100 MB GitHub limit); re-download URLs in `data_provenance/SOURCES.txt`.
+Raw feathers are NOT in git (>100 MB GitHub limit); `scripts/00_download_data.sh`
+downloads them with size verification (URLs also in `data_provenance/SOURCES.txt`).
 
 ## 3. Hardware Reality & What "Full Model" Means Here
 
@@ -124,9 +125,17 @@ Samples: `results/sample_fly_full.txt`, `results/sample_transformer_full.txt`.
 | Frozen params | 0 | 26,028,386 (synapse weights) |
 | Tokens/chars seen | 16,384,000 (15.6 epochs) | 1,051,328 (1 pass) |
 | Wall-clock | ~1.21 h | ~1.76 h |
-| Flop-equivalents (train) | ~6.1e14 | ~8.6e14 (incl. frozen spmv) |
+| Flop-equivalents (train) | ~6.1e14 | ~1e14 (correction below) |
 
-The fly arm consumed comparable or more compute and still trails by 1.38 bpc — the gap is representational (memory architecture), not a compute artifact.
+**Correction (session 3, 2026-09-14):** the original "~8.6e14 incl. frozen spmv" figure
+double-counted the 64 streams (positions are already per-stream). Honest accounting:
+frozen spmv = 26,028,386 nnz × 64 streams × 2 flops × 16,427 positions ≈ 5.5e13, plus
+readout training ≈ 1.5e13 (ledger) to 8.7e13 (counting both backward passes) → ~1e14 total.
+The fly arm therefore performed ~6× LESS arithmetic than the transformer while running
+45% longer in wall-clock (26M-nnz sparse ops are memory-bound on CPU). This strengthens
+the conclusion: the 1.38 bpc gap is representational, not a compute artifact — on
+arithmetic-efficiency grounds the transformer is even further ahead, and at matched
+wall-clock the fly still loses.
 
 ## 6. The Answer to the Core Question
 
@@ -144,18 +153,27 @@ The fly arm consumed comparable or more compute and still trails by 1.38 bpc —
 
 ## 7. Repository Map
 
+- `README.md` — public-facing overview + full replication guide (rewritten session 3)
 - `experiment.md` — this file (full session context + results)
 - `worklog.md` — append-only agent work log
-- `scripts/` — 01–08 numbered pipeline (inspect → peek → build adjacency → benchmarks → eval suite → induction → report assets); `run_flylm_full_sweeps.sh`
-- `src/` — `reservoir_lib.py` (corpus/connectome/dynamics utils), `flylm_full2.py` (**final full-model trainer**), `flylm_full.py` (v1, kept for the record), `transformer_lm.py`, `bigram_baseline.py`, prior-session sources
-- `results/` — all metrics JSONs, figures, generation samples, probe files, search snapshots
-- `data/` + `data_provenance/` — raw downloads (not in git, >100 MB; public URLs) + provenance/corpus
+- `requirements.txt` / `LICENSE` — environment spec; MIT for code (data is CC-BY 4.0)
+- `src/repo_paths.py` + `scripts/repo_paths.py` — single source of truth for all paths (repo-relative; byte-identical copies)
+- `scripts/00_download_data.sh` — raw MaleCNS v1.0 download (~1.11 GB) with size verification
+- `scripts/` — build_adjacency (feather→npz), 03–05 benchmarks, 06 eval suite, 07 induction fragments, 08 report assets, run_flylm_full_sweeps.sh
+- `src/` — `reservoir_lib.py` (corpus/connectome/dynamics utils), `flylm_full2.py` (**final full-model trainer**), `flylm_full.py` (v1, kept for the record), `transformer_lm.py`, `bigram_baseline.py`, `flylm_plastic.py` (BPTT sub-brain appendix), earlier-session sources
+- `results/` — all metrics JSONs, figures, generation samples, probe files
+- `data/malecns/processed/` — rebuilt adjacency (fly/shuffled/random), corpus ids, annotations, RCM perm (committed — training needs NO raw download)
+- `data_provenance/` — source URLs, checksums, corpus, websearch snapshots
 - `data/malecns/ckpts/` — model checkpoints (not in git; regenerable from scripts)
 
 ## 8. Reproduction
 
+Full guide lives in `README.md` (§ Reproducing). Short form:
+
 ```bash
-python3 scripts/build_adjacency.py        # feather -> adjacency.npz (verified stats)
+pip install -r requirements.txt            # CPU torch is sufficient
+bash scripts/00_download_data.sh           # OPTIONAL: raw 1.11 GB; processed/ is committed
+python3 scripts/build_adjacency.py         # only if raw rebuilt; expect 26,028,386 conn / 125,365,936 syn
 python3 src/flylm_full2.py --variant fly     --tag full2 --store-proj   # repeat until RESULT
 python3 src/flylm_full2.py --variant shuffled --tag full2
 python3 src/flylm_full2.py --variant random  --tag full2
@@ -165,9 +183,14 @@ python3 scripts/07_induction_fragments.py
 python3 scripts/08_report_assets.py
 ```
 All trainers checkpoint and resume; every invocation advances to a time budget.
+All paths are repo-relative as of session 3 (verified: `06_eval_suite.py bigram`
+reproduces the committed `results/bigram_full.json` bit-for-bit after the refactor;
+`load_fly_csr_cached` now builds its cache from committed artifacts instead of relying
+on a file created ad hoc in session 2).
 
 ## 9. Session Ledger (context recovery)
 
 - Session dates: 2026-09-13 (Asia/Calcutta). Two prior context-losses: session 1 produced the partial (30k-pool) results + this repo; session 2 (current) identified MaleCNS v1.0 by websearch, rebuilt the full adjacency, ran the full model per the user's "not oversimplified / full model / no weak version" directive.
-- GitHub: private repo `alexbuildstech/fly-connectome-lm`; token used only in git remote config (never committed).
+- Session 3 (2026-09-14): user ordered public release + proper README + full replication support. Removed ALL hardcoded `/home/z` paths (23 code files → repo-relative via `repo_paths.py`); added `requirements.txt`, `LICENSE`, `scripts/00_download_data.sh`; fixed replication gap (`fly_csr_int32.pt` now auto-built); corrected the §5.5 flop accounting; rewrote README; verified bigram eval reproduces committed JSON bit-for-bit from a fresh clone; flipped repo to PUBLIC via API.
+- GitHub: `alexbuildstech/fly-connectome-lm`, now PUBLIC; token used only in git remote config (never committed).
 - Verdict tables live in §5; the direct answer in §6.

@@ -1,8 +1,10 @@
 """Inspect the MaleCNS v1.0 connectome feather files: schema, size, sample rows."""
+import os as _os
+_R = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))  # repo root
 import pyarrow.feather as feather
 import pandas as pd
 
-base = "/home/z/my-project/data/malecns/"
+base = f"{_R}/data/malecns/"
 
 print("=== connectome-weights (the edge list) ===")
 w = feather.read_table(base + "connectome-weights-male-cns-v1.0-minconf-0.5.feather")

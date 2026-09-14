@@ -1,9 +1,11 @@
 """Create slim annotation table + neurotransmitter join for the repo."""
+import os as _os
+_R = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))  # repo root
 import pyarrow.feather as feather
 import pandas as pd
 import numpy as np
 
-BASE = "/home/z/my-project/data/malecns"
+BASE = f"{_R}/data/malecns"
 
 ann = feather.read_table(f"{BASE}/body-annotations-male-cns-v1.0-minconf-0.5.feather").to_pandas()
 print("annotations:", ann.shape)

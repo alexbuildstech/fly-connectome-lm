@@ -26,16 +26,25 @@ import torch
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-RESULTS = "/home/z/my-project/results"
-CKPT = "/home/z/my-project/data/malecns/ckpts"
-DATA = "/home/z/my-project/data/malecns/processed"
+from repo_paths import CKPT, PROCESSED, RESULTS
+
+DATA = PROCESSED
 torch.set_num_threads(2)
 
 V = 65
 
 
 def load_fly_csr_cached():
-    z = torch.load(f"{DATA}/fly_csr_int32.pt", weights_only=False)
+    """Row-sum-normalized + RCM-reordered fly CSR as torch sparse (built on first use
+    from the committed processed/ artifacts; nothing else is needed)."""
+    cache = f"{DATA}/fly_csr_int32.pt"
+    if not os.path.exists(cache):
+        A2, _ = load_adjacency_rcm("fly", 0)
+        torch.save({"indptr": torch.from_numpy(A2.indptr.astype(np.int32)),
+                    "indices": torch.from_numpy(A2.indices.astype(np.int32)),
+                    "data": torch.from_numpy(A2.data.astype(np.float32)),
+                    "shape": torch.tensor(A2.shape)}, cache)
+    z = torch.load(cache, weights_only=False)
     return torch.sparse_csr_tensor(z["indptr"], z["indices"], z["data"], size=tuple(z["shape"].tolist()))
 
 

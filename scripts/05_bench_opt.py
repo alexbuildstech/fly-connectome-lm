@@ -1,4 +1,6 @@
 """Benchmark spmv optimizations: int32 indices + RCM reordering."""
+import os as _os
+_R = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))  # repo root
 import time
 import numpy as np
 import scipy.sparse as sp
@@ -7,7 +9,7 @@ import torch
 
 torch.set_num_threads(2)
 
-A = sp.load_npz("/home/z/my-project/data/malecns/processed/adjacency.npz").tocsr().astype(np.float32)
+A = sp.load_npz(f"{_R}/data/malecns/processed/adjacency.npz").tocsr().astype(np.float32)
 rowsum = np.asarray(A.sum(axis=1)).ravel()
 A = (sp.diags(1.0 / np.maximum(rowsum, 1e-6)) @ A).tocsr()
 N = A.shape[0]
@@ -53,5 +55,5 @@ At32r = torch.sparse_csr_tensor(
     torch.from_numpy(A2.data), size=A2.shape)
 bench(At32r, N, 64, "int32+RCM")
 
-np.save("/home/z/my-project/data/malecns/processed/rcm_perm.npy", perm.astype(np.int64))
+np.save(f"{_R}/data/malecns/processed/rcm_perm.npy", perm.astype(np.int64))
 print("perm saved")

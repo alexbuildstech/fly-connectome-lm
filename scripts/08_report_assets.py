@@ -13,7 +13,8 @@ import torch
 plt.rcParams['font.sans-serif'] = ['DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
-RESULTS = "/home/z/my-project/results"
+import repo_paths
+RESULTS = repo_paths.RESULTS
 
 # ---------- gather ----------
 rows = []
@@ -55,7 +56,7 @@ fig.savefig(f"{RESULTS}/fig_main.png", dpi=150)
 plt.close(fig)
 
 # ---------- fig 2: training curves ----------
-ck = torch.load("/home/z/my-project/data/malecns/ckpts/flylm_full2_fly_leak0.7_gain1.6_ing2.0_s0.pt",
+ck = torch.load(f"{repo_paths.CKPT}/flylm_full2_fly_leak0.7_gain1.6_ing2.0_s0.pt",
                 weights_only=False)
 h = ck["hist"]
 p = [x["pos"] for x in h]; l = [x["loss"] for x in h]
@@ -91,7 +92,7 @@ plt.close(fig)
 fly_wall = fly["wall_seconds"]
 import glob, os
 def sweep_wall(variant):
-    ck2 = torch.load(f"/home/z/my-project/data/malecns/ckpts/flylm_full2_{variant}_leak0.7_gain1.6_ing2.0_s0.pt",
+    ck2 = torch.load(f"{repo_paths.CKPT}/flylm_full2_{variant}_leak0.7_gain1.6_ing2.0_s0.pt",
                      weights_only=False)
     return None
 ledger = {

@@ -1,4 +1,6 @@
 """Grid search v2: all configs as parallel columns of one reservoir batch (fast)."""
+import os as _os
+_R = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))  # repo root
 import numpy as np, scipy.sparse as sp, torch, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from reservoir_lib import load_corpus, load_adjacency, DATA
@@ -62,7 +64,7 @@ with torch.no_grad():
             states[t - rec] = X[feat, :].clone()  # (2048 features, B configs)
 
 print("collected", tuple(states.shape), flush=True)
-np.save("/home/z/my-project/data/malecns/grid_states.npy", states.numpy())
+np.save(f"{_R}/data/malecns/grid_states.npy", states.numpy())
 sl_all = states[300:].numpy()
 t0s = rec + 300
 prev = stream[t0s - 1: t0s - 1 + sl_all.shape[0]]

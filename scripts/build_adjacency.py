@@ -10,8 +10,10 @@ import pyarrow.ipc as ipc
 import scipy.sparse as sp
 import json, os, time, hashlib
 
-SRC = "/home/z/my-project/data/malecns/connectome-weights-male-cns-v1.0-minconf-0.5.feather"
-BASE = "/home/z/my-project/data/malecns"
+from repo_paths import DATA
+
+SRC = f"{DATA}/connectome-weights-male-cns-v1.0-minconf-0.5.feather"
+BASE = DATA
 OUT = f"{BASE}/processed"
 DUMP = f"{BASE}/neuron_pairs_int32.npy"
 os.makedirs(OUT, exist_ok=True)

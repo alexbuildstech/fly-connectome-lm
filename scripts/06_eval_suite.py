@@ -15,10 +15,11 @@ import time
 import numpy as np
 import torch
 
-sys.path.insert(0, "/home/z/my-project/src")
-DATA = "/home/z/my-project/data/malecns/processed"
-RESULTS = "/home/z/my-project/results"
-CORPUS = "/home/z/my-project/data_provenance/tinyshakespeare_input.txt"
+import repo_paths
+sys.path.insert(0, repo_paths.SRC)
+DATA = repo_paths.PROCESSED
+RESULTS = repo_paths.RESULTS
+CORPUS = repo_paths.CORPUS
 torch.set_num_threads(2)
 V = 65
 
@@ -73,7 +74,7 @@ def part_probes():
 
 def _load_fly_model():
     import flylm_full2 as fl
-    ck = torch.load("/home/z/my-project/data/malecns/ckpts/flylm_full2_fly_leak0.7_gain1.6_ing2.0_s0.pt",
+    ck = torch.load(f"{repo_paths.CKPT}/flylm_full2_fly_leak0.7_gain1.6_ing2.0_s0.pt",
                     weights_only=False)
     At = fl.load_fly_csr_cached()
     B_enc = torch.from_numpy(ck["B_enc"])
@@ -119,12 +120,12 @@ def part_induction():
         fly_first.append(float((pred[:L] == tgt).mean()))
         fly_second.append(float((pred[L:] == tgt).mean()))
     # ---- transformer ----
-    src = open("/home/z/my-project/src/transformer_lm.py").read().replace(
+    src = open(f"{repo_paths.SRC}/transformer_lm.py").read().replace(
         'if __name__ == "__main__":\n    main()', "")
-    tl = {"__file__": "/home/z/my-project/src/transformer_lm.py"}
+    tl = {"__file__": f"{repo_paths.SRC}/transformer_lm.py"}
     exec(src, tl)
     model = tl["TinyGPT"](V, 320, 5, 4, 1280, 128)
-    z = torch.load("/home/z/my-project/data/malecns/ckpts/transformer_full_L_s0.pt", weights_only=False)
+    z = torch.load(f"{repo_paths.CKPT}/transformer_full_L_s0.pt", weights_only=False)
     model.load_state_dict(z["model"])
     model.eval()
     tf_first, tf_second = [], []
@@ -183,12 +184,12 @@ def part_generate():
     fly_text = "".join(chars[t] for t in toks)
     open(f"{RESULTS}/sample_fly_full.txt", "w").write(fly_text)
     # ---- transformer generation ----
-    src = open("/home/z/my-project/src/transformer_lm.py").read().replace(
+    src = open(f"{repo_paths.SRC}/transformer_lm.py").read().replace(
         'if __name__ == "__main__":\n    main()', "")
-    tl = {"__file__": "/home/z/my-project/src/transformer_lm.py"}
+    tl = {"__file__": f"{repo_paths.SRC}/transformer_lm.py"}
     exec(src, tl)
     model = tl["TinyGPT"](V, 320, 5, 4, 1280, 128)
-    z = torch.load("/home/z/my-project/data/malecns/ckpts/transformer_full_L_s0.pt", weights_only=False)
+    z = torch.load(f"{repo_paths.CKPT}/transformer_full_L_s0.pt", weights_only=False)
     model.load_state_dict(z["model"])
     model.eval()
     ctx_ids = list(ids[:64])

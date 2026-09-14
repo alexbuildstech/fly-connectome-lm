@@ -8,8 +8,9 @@ Design notes (2-core / 4.1GB CPU box):
 import numpy as np
 import scipy.sparse as sp
 
-DATA = "/home/z/my-project/data/malecns/processed"
-CORPUS = "/home/z/my-project/data_provenance/tinyshakespeare_input.txt"
+from repo_paths import CORPUS, PROCESSED
+
+DATA = PROCESSED
 
 
 # ---------------------------------------------------------------- corpus
