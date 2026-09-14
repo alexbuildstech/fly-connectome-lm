@@ -304,3 +304,57 @@ cross-entropy (probability-scale outputs vs logit-scale loss caps softmax
 performance), and raw projection features (row L2 ≈ 118) diverge a
 zero-init LR at lr = 0.05 without per-feature standardization. All fixes are
 documented in the kernel source and applied identically to the local reruns.
+
+### 10.5 Nonlinear readout + memory probes (GPU, corrected arm)
+
+Rerun on GPU from the saved probes by `flylm-v3-nonlinear-fixup` (mounted
+dataset `alexazander/flylm-v3-probes-v3`; full protocol: linear = multinomial
+LR ≤60 epochs, MLP 4096→1024→65 ≤30 epochs, both AdamW + early stopping on
+the inner temporal tail, per-feature standardization from train stats only;
+identical features for both readouts; 0 per-lag failures; 125 s wall).
+Chance = log2(65) = 6.02 bpc; unigram floor = 4.82.
+
+Lag-0 (next-char from current state) and best recall lag (linear bpc):
+
+| probe | lag0 linear | lag0 mlp | best recall lag | recall bpc (lin/mlp) |
+|---|---|---|---|---|
+| flysigned 0.7 | 3.565 | **3.299** | 16 ch | 2.682 / 3.623 |
+| shuffledsigned 0.7 | 3.503 | **3.125** | 16 ch | 1.564 / 2.114 |
+| randomsigned 0.7 | 3.491 | **3.079** | 16 ch | **0.987** / 1.365 |
+| fly 0.9 | 4.118 | (near-chance) | — | none below chance |
+| fly 0.99 | 3.957 | (near-chance) | — | none below chance |
+| fly multi-leak | 4.110 | (near-chance) | — | none below chance |
+| fly + 30% delays | 4.288 | (near-chance) | — | none below chance |
+
+Answers to the two remaining critique items, measured rather than assumed:
+
+- **Critique #4 (memory):** the fixed 0.7 leak was NOT the binding
+  constraint — slowing it (0.9/0.99), partitioning it (multi 0.3/0.7/0.99),
+  or adding 30% one-step delays produced **zero measurable recall at any lag
+  ≥ 16 chars on the unsigned graph**. What does create state memory is
+  **E/I structure**: all three signed graphs recall a 16-chars-past input at
+  0.99–2.68 bpc (24–83% below chance), consistent with inhibition-supported
+  attractors. The signed controls recall better than the signed real graph
+  (random 0.987 < shuffled 1.564 < real 2.682), the same ordering as every
+  other frozen measurement.
+- **Critique #6 (nonlinear readout):** on identical features the MLP does
+  **not** meaningfully beat the linear readout anywhere (signed lag 0: 3.08–
+  3.30 vs 3.49–3.57; at recall lags the two agree within noise; on unsigned
+  probes the MLP fails to train within budget and sits near chance). The
+  extra performance the earlier sub-brain BPTT found is therefore in the
+  dynamics/plasticity, not in a nonlinear probe of frozen features.
+
+Caveat carried forward: single seed (s0) throughout the v3 campaign; the
+plastic-battery separation (0.326 bpc) and the recall ordering above both
+need seed replicates before being quoted as firm effect sizes.
+
+### 10.6 Session 4 verdict
+
+Combining §10.2–10.5: the §6 verdict ("the wiring contributes nothing") is
+**overturned for the trainable-synapse regime and upheld for the frozen
+regime**. The real connectome, given E/I-signed dynamics AND BPTT-trained
+synapses, beats its matched random control by 0.326 bpc and sits at the top
+of a monotone plasticity gradient. Frozen, it remains indistinguishable from
+or worse than controls regardless of signs, leaks, delays, or readout
+nonlinearity. What the fly brain needed was not a better probe — it needed
+to be trained.

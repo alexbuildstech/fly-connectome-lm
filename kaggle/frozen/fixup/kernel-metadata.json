@@ -1,0 +1,14 @@
+{
+  "id": "alexazander/flylm-v3-nonlinear-fixup",
+  "title": "FlyLM v3 Nonlinear Fixup",
+  "code_file": "flylm-v3-nonlinear-fixup.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_internet": "false",
+  "dataset_sources": [],
+  "dataset_sources": ["alexazander/flylm-v3-probes-v3"],
+  "competition_sources": [],
+  "model_sources": []
+}
